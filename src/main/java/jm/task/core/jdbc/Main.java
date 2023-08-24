@@ -22,7 +22,9 @@ public class Main {
 
         userServiceImpl.removeUserById(1);
         System.out.println(userServiceImpl.getAllUsers());
-//        userServiceImpl.cleanUsersTable();
-//        userServiceImpl.dropUsersTable();
+        userServiceImpl.cleanUsersTable();
+        userServiceImpl.dropUsersTable();
+
+        HibernateConnection.shutdownSessionFactory();
     }
 }

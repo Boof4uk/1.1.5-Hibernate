@@ -15,12 +15,11 @@ import static jm.task.core.jdbc.util.HibernateConnection.getSessionFactory;
 
 public class UserDaoHibernateImpl implements UserDao {
     public UserDaoHibernateImpl() {
-
     }
 
     @Override
     public void createUsersTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS user " +
+        String sql = "CREATE TABLE IF NOT EXISTS users " +
                 "(id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "name VARCHAR(50) NOT NULL, " +
                 "lastName VARCHAR(50) NOT NULL, " +
@@ -28,7 +27,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
         try (Session session = HibernateConnection.getSessionFactory().openSession();) {
             Transaction transaction = session.beginTransaction();
-            session.createNativeQuery(sql).addEntity(User.class);
+            session.createNativeQuery(sql).executeUpdate();
             System.out.println("Таблица успешно создана");
             transaction.commit();
         } catch (Throwable e) {
@@ -43,7 +42,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = HibernateConnection.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            session.createSQLQuery("DROP TABLE IF EXISTS User").executeUpdate();
+            session.createSQLQuery("DROP TABLE IF EXISTS users").executeUpdate();
             System.out.println("Таблица успешно удалена");
             transaction.commit();
             session.close();
